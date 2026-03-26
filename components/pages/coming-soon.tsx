@@ -16,7 +16,7 @@ export default function ComingSoon() {
         {/*  */}
         <div className="text-center z-10">
           {/* Hero text */}
-          <div className="text-8xl w-max mx-auto leading-28">
+          <div className="text-4xl sm:text-6xl md:text-8xl w-max mx-auto sm:leading-18 md:leading-28">
             We Engineer<br></br>{" "}
             <div className="flex items-center font-semibold justify-center">
               High-Converting
@@ -26,7 +26,7 @@ export default function ComingSoon() {
           {/* End Hero Text */}
         </div>
         {/* End Hero */}
-        <AnimatedShinyText className="text-6xl text-nowrap mx-auto">
+        <AnimatedShinyText className="text-2xl sm:text-6xl text-nowrap mx-auto">
           <span>Coming Soon</span>
         </AnimatedShinyText>
       </div>
