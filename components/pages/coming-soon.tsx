@@ -7,7 +7,7 @@ export default function ComingSoon() {
   return (
     <div className="relative overflow-hidden h-[calc(100vh-44px)] w-full">
       <div className="absolute top-0 bottom-0 right-0 left-0">
-        <Particles quantity={400} color="#000000" refresh />
+        <Particles quantity={400} color="#000000" className="h-full w-full" />
       </div>
       {/* Hero */}
       <div className="relative flex flex-col items-center justify-center w-full h-full container mx-auto gap-12">
