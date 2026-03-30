@@ -2,6 +2,7 @@
 
 import logoLight from "@/public/assets/neon-anthem/neon-anthem-logo-light.svg";
 import {
+  IconArrowDown,
   IconArrowRight,
   IconAspectRatio,
   IconBrowser,
@@ -9,9 +10,10 @@ import {
   IconCode,
   IconUser,
 } from "@tabler/icons-react";
-import { motion, useMotionValue, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import Image from "next/image";
-import { JSX } from "react";
+import { JSX, useState } from "react";
+import { Button } from "./button";
 import {
   Nav,
   NavBar,
@@ -30,26 +32,10 @@ import {
 } from "./navigation-menu";
 
 export default function NavigationBar() {
-  const widthValue = useMotionValue(40);
-
-  const width = useTransform(widthValue, [0, 1], [40, "100%"]);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   return (
-    <motion.nav
-      style={{
-        width,
-      }}
-      onAnimationComplete={() => {
-        widthValue.set(100);
-      }}
-      initial={{
-        y: -30,
-      }}
-      animate={{
-        y: 0,
-      }}
-      className="flex items-center justify-center shadow mx-auto"
-    >
+    <motion.nav className="flex items-center justify-center shadow mx-auto">
       <Nav>
         <NavBar>
           <NavBrand>
@@ -62,12 +48,18 @@ export default function NavigationBar() {
             />
           </NavBrand>
 
-          <NavGroup>
+          <NavGroup className="hidden sm:block">
             <Navigation />
-            <NavCTA>
-              Free 3-min Structural Audit
-              <IconArrowRight />
-            </NavCTA>
+            <NavGroup className="gap-2">
+              <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
+                See our work
+                <IconArrowDown />
+              </Button>
+              <NavCTA>
+                Free 3-min Structural Audit
+                <IconArrowRight />
+              </NavCTA>
+            </NavGroup>
           </NavGroup>
         </NavBar>
       </Nav>
@@ -101,16 +93,16 @@ const navItems: INavItems[] = [
         icon: <IconBrowser />,
       },
       {
-        label: "SaaS Development",
+        label: "Custom Solutions",
         description:
           "Build or revamp your existing Saas or solution for future market positioning",
         href: "/services/swd",
         icon: <IconCode />,
       },
       {
-        label: "Market Positioning",
+        label: "Conversion Strategy",
         description:
-          "A Full-Brief on Market size, target audience, Scope of work and more...",
+          "A Full-Brief on Product market fit, Target audience, Scope of work and more...",
         href: "/services/market-consultation",
         icon: <IconAspectRatio />, // todo: Update the icon
       },
@@ -136,11 +128,7 @@ const navItems: INavItems[] = [
     ],
   },
   {
-    label: "Work",
-    href: "/work",
-  },
-  {
-    label: "Blog",
+    label: "Blogs",
     href: "/blogs",
   },
 ];
