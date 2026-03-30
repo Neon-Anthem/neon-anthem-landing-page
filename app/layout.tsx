@@ -1,4 +1,4 @@
-import NavBar from "@/components/ui/nav-bar";
+import NavigationBar from "@/components/ui/nav-bar";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -40,7 +40,7 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <NavBar />
+        <NavigationBar />
         <main>{children}</main>
         <Toaster />
       </body>

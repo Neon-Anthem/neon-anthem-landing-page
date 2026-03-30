@@ -46,6 +46,11 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Nav bar */
+  --color-navbar: var(--navbar);
+  --color-navbar-item: var(--navbar-item);
+  /* End Nav bar */
   --animate-shiny-text: shiny-text 8s infinite;
   @keyframes shiny-text {
     0%,
@@ -104,6 +109,9 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* Navigatio Bar */
+  --navbar-item: oklch(0.145 0 0);
+  --navbar: oklch(1 0 0);
 }
 
 .dark {
@@ -138,6 +146,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  --navbar: oklch(0.145 0 0);
+  --navbar-item: oklch(1, 0, 0);
 }
 
 @layer base {
