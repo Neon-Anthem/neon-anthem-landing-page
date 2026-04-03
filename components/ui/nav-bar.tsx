@@ -10,7 +10,6 @@ import {
   IconCode,
   IconUser,
 } from "@tabler/icons-react";
-import { motion } from "motion/react";
 import Image from "next/image";
 import { JSX, useState } from "react";
 import { Button } from "./button";
@@ -35,35 +34,33 @@ export default function NavigationBar() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   return (
-    <motion.nav className="flex items-center justify-center shadow mx-auto">
-      <Nav>
-        <NavBar>
-          <NavBrand>
-            <Image
-              src={logoLight}
-              width={100}
-              height={100}
-              className="size-10"
-              alt="Neon anthem logo, bold and wide Capital N with a Polestar on the top right of the capital N"
-            />
-          </NavBrand>
+    <Nav className="">
+      <NavBar className="bg-white!">
+        <NavBrand>
+          <Image
+            src={logoLight}
+            width={100}
+            height={100}
+            className="size-10"
+            alt="Neon anthem logo, bold and wide Capital N with a Polestar on the top right of the capital N"
+          />
+        </NavBrand>
 
-          <NavGroup className="hidden sm:block">
-            <Navigation />
-            <NavGroup className="gap-2">
-              <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
-                See our work
-                <IconArrowDown />
-              </Button>
-              <NavCTA>
-                Free 3-min Structural Audit
-                <IconArrowRight />
-              </NavCTA>
-            </NavGroup>
+        <NavGroup className="hidden sm:flex">
+          <Navigation />
+          <NavGroup className="gap-2">
+            <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
+              See our work
+              <IconArrowDown />
+            </Button>
+            <NavCTA>
+              Free 3-min Structural Audit
+              <IconArrowRight />
+            </NavCTA>
           </NavGroup>
-        </NavBar>
-      </Nav>
-    </motion.nav>
+        </NavGroup>
+      </NavBar>
+    </Nav>
   );
 }
 

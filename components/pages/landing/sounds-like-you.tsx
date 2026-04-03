@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { IconArrowDown, IconArrowRight } from "@tabler/icons-react";
 import { cva, VariantProps } from "class-variance-authority";
+import { PropsWithChildren } from "react";
 
 export default function SoundsLikeYouSection() {
   return (
@@ -16,16 +17,6 @@ export default function SoundsLikeYouSection() {
         <TabsSection />
       </div>
     </section>
-  );
-}
-
-function Heading() {
-  return (
-    <div className="mt-24 space-y-12" data-block="contain">
-      <h3 className="text-6xl sm:text-7xl text-center font-semibold font-geist">
-        Sounds like you?
-      </h3>
-    </div>
   );
 }
 
@@ -55,7 +46,7 @@ function TabsSection() {
 
         <div className="md:mt-12">
           <TabsContent value="startup">
-            <Card
+            <CardContent
               tag="Startups"
               title="Your page looks good. That's not the problem."
               description="Your ads are running. Traffic is coming in. But the page isn't converting at the rate your deck projected. You need conversion engineering — not another redesign."
@@ -83,7 +74,7 @@ function TabsSection() {
             />
           </TabsContent>
           <TabsContent value="b2b">
-            <Card
+            <CardContent
               tag="Legacy B2B"
               title="Your product is proven. Your page isn't showing it."
               description="You've been in business for years. But your website was built in 2019 and your competitors are closing deals with sharper acquisition funnels. Time to catch up — without breaking what works."
@@ -110,6 +101,22 @@ function TabsSection() {
 }
 
 function Card({
+  children,
+  className,
+}: PropsWithChildren & { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "grid grid-cols-1 grid-rows-2 md:grid-rows-1 md:grid-cols-2 mt-2 md:mt-16 mx-3 md:mx-0",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+function CardContent({
   tag,
   title,
   description,
@@ -125,7 +132,7 @@ function Card({
   metrics: { range: number; label: string }[];
 }) {
   return (
-    <div className="grid grid-cols-1 grid-rows-2 md:grid-rows-1 md:grid-cols-2 mt-2 md:mt-16 mx-3 md:mx-0">
+    <Card className="overflow-x-hidden">
       <div className="flex flex-col items-start space-y-2 md:space-y-4">
         {/* Tag */}
         <span className="bg-accent font-semibold border text-xs md:text-base rounded-full px-3 py-1">
@@ -158,9 +165,11 @@ function Card({
       </div>
 
       {/* Metrics */}
-      <Metrics metrics={metrics} />
+      <div className="">
+        <MetricsContent metrics={metrics} />
+      </div>
       {/* End Metrics */}
-    </div>
+    </Card>
   );
 }
 
@@ -174,9 +183,42 @@ const tagVariants = cva("size-3 rounded-full", {
   },
 });
 
-function Metrics({ metrics }: { metrics: { label: string; range: number }[] }) {
+function Metrics({
+  children,
+  className,
+}: PropsWithChildren & { className?: string }) {
   return (
-    <div className="bg-stone-50  h-fit border md:w-[80%] p-6 rounded-3xl mx-auto mt-3 md:mt-0">
+    <div
+      className={cn(
+        "relative h-fit outline outline-border md:w-[80%] p-6 mx-auto mt-3 md:mt-0",
+        className,
+      )}
+    >
+      {children}
+      {/*  */}
+      <div className="absolute w-[20%] h-px -top-px right-full -bg-linear-90 from-red-600 to-red-800"></div>
+      <div className="absolute w-[20%] h-px -bottom-px right-full -bg-linear-90 from-border to-border/80"></div>
+      {/*  */}
+      <div className="absolute w-px h-[40%] top-full -right-px bg-linear-180 from-border to-border/80"></div>
+      <div className="absolute w-px h-[40%] top-full -left-px bg-linear-180 from-border to-border/80"></div>
+      {/*  */}
+      <div className="absolute w-[20%] h-px -top-px left-full bg-linear-90 from-border to-border/80"></div>
+      <div className="absolute w-[20%] h-px -bottom-px left-full bg-linear-90 from-border to-border/80"></div>
+      {/*  */}
+      <div className="absolute w-px h-[40%] bottom-full -right-px bg-linear-0 from-border to-border/80"></div>
+      <div className="absolute w-px h-[40%] bottom-full -left-px bg-linear-0 from-border to-border/80"></div>
+      {/*  */}
+    </div>
+  );
+}
+
+function MetricsContent({
+  metrics,
+}: {
+  metrics: { label: string; range: number }[];
+}) {
+  return (
+    <Metrics className="">
       <h5 className="uppercase font-mono tracking-widest font-medium text-base">
         Common Gaps we find
       </h5>
@@ -217,6 +259,6 @@ function Metrics({ metrics }: { metrics: { label: string; range: number }[] }) {
       <p className="text-accent-foreground/60 capitalize">
         These are the 4 dimensions we audit first
       </p>
-    </div>
+    </Metrics>
   );
 }

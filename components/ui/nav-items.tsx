@@ -5,7 +5,7 @@ function Nav({
   children,
   className,
 }: PropsWithChildren & { className?: string }) {
-  return <div className={cn("z-100", className)}>{children}</div>;
+  return <nav className={cn("z-100", className)}>{children}</nav>;
 }
 
 function NavBar({
