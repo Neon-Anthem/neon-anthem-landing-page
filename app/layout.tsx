@@ -2,6 +2,7 @@ import Footer from "@/components/pages/footer";
 import NavigationBar from "@/components/ui/nav-bar";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import LenisProvider from "@/providers/lenis.provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Syne } from "next/font/google";
 import "./globals.css";
@@ -47,12 +48,14 @@ export default function RootLayout({
         inter.variable,
       )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="select-none">
         <NavigationBar />
-        <main className="**:data-[block=contain]:container **:data-[block=contain]:mx-auto">
-          {children}
-          <Footer />
-        </main>
+        <LenisProvider>
+          <main className="**:data-[block=contain]:container **:data-[block=contain]:mx-auto">
+            {children}
+            <Footer />
+          </main>
+        </LenisProvider>
         <Toaster />
       </body>
     </html>

@@ -20,17 +20,26 @@ export default function HowItWorks() {
 
 function CTA({ className }: { className?: string }) {
   return (
-    <div>
+    <div
+      className={cn(
+        "flex flex-col md:flex-row gap-2 items-center justify-center md:justify-start",
+        className,
+      )}
+    >
       <button
         type="button"
         className={cn(
-          "bg-black px-3 py-1.5 font-medium rounded-full text-white flex items-center gap-2 [&>svg]:size-4 text-sm mx-auto sm:mr-auto w-max",
-          className,
+          "bg-foreground px-3 py-1.5 font-medium rounded-full text-white flex items-center gap-2 [&>svg]:size-4 text-sm",
         )}
       >
         Start with Step 1 - it&apos;s free
         <IconArrowRight />
       </button>
+      {/*  */}
+      <p className="text-foreground text-sm">
+        30 seconds to request. 24 hours to deliver
+      </p>
+      {/*  */}
     </div>
   );
 }
@@ -39,7 +48,7 @@ function Heading() {
   return (
     <div className="space-y-12" data-block="contain">
       <h3 className="text-6xl sm:text-7xl w-[70%] font-semibold font-geist uppercase">
-        Our Strategy.
+        The Process.
       </h3>
     </div>
   );
@@ -51,37 +60,37 @@ function Process() {
       <ProcessCard
         step={1}
         title="Structural Audit (Free)"
-        description="We analyze your current page or brief across 5 conversion dimensions. You get a clear breakdown of what's broken and why. Takes 30 seconds to request, 24 hours to deliver."
+        description="5 Conversion dimensions. Clear breakdown. 24 hours."
         hero={{
           label: "Identify friction",
-          stepLabel: "first step",
+          stepLabel: "Evaluation",
           tag: "analyse",
         }}
       />
       <ProcessCard
         step={2}
         title="Strategy & messaging"
-        description="We map your ICP, sharpen the value prop, and define the page architecture before a single line of code is written. No guessing. All signal."
+        description="No Guessing. A full-ICP map. Defined Value proposition."
         hero={{
           label: "Strategic Positioning",
-          stepLabel: "Ideation Step",
+          stepLabel: "Ideation",
           tag: "Research",
         }}
       />
       <ProcessCard
         step={3}
         title="Build"
-        description="Design and development in parallel. Conversion-first layout, copy hierarchy, CTA placement — engineered for the one action you want visitors to take."
+        description="Engineered for CTA's"
         hero={{
           label: "Design & Development",
-          stepLabel: "Analysis to action",
+          stepLabel: "In-action",
           tag: "Development",
         }}
       />
       <ProcessCard
         step={4}
         title="Launch & Iterate"
-        description="We ship. Then we watch. Post-launch, we review performance data and run the first iteration within 7 days if needed."
+        description="Ship. Performance Review. Re-iterate."
         hero={{
           label: "Launch & Post-launch",
           stepLabel: "Optimization",
@@ -104,7 +113,7 @@ function ProcessCard({ title, description, step, hero }: IProcessCardProps) {
     <div className="relative isolate">
       {/* Step count */}
       <div className="">
-        <h5 className="bg-clip-text text-transparent bg-linear-0 w-max from-accent-foreground/40 to-background text-6xl sm:text-7xl leading-none font-bold font-geist">
+        <h5 className="bg-clip-text text-transparent bg-linear-0 w-max from-accent-foreground/80 to-foreground text-6xl sm:text-7xl leading-none font-bold font-geist">
           {step}
         </h5>
       </div>
@@ -135,13 +144,14 @@ interface IProcessCalendar {
   label: string;
   stepLabel: string;
 }
+
 function ProcessCalendar({ tag, label, stepLabel }: IProcessCalendar) {
   return (
-    <div className="flex items-center my-4 mt-6 h-26.5">
+    <div className="flex items-center my-4 mt-6 h-27.5">
       {/* Tag */}
       <div className="w-10 h-full flex items-center justify-center">
         {/* Tag Text */}
-        <div className="-rotate-90 space-y-0.5 flex flex-col items-center justify-start w-26.5">
+        <div className="-rotate-90 space-y-0.5 flex flex-col items-center justify-start w-27.5">
           <div className="bg-foreground outline rounded-xs py-0.5 px-2 text-center w-[inherit]">
             <p className="text-sm text-background font-semibold tracking-wide font-mono uppercase">
               {tag}
@@ -159,10 +169,12 @@ function ProcessCalendar({ tag, label, stepLabel }: IProcessCalendar) {
       <div className="w-full h-full bg-linear-90 from-accent to-background rounded-l-sm p-2">
         <div className="w-full h-full flex items-center justify-start">
           <div className="flex flex-col">
-            <p className="text-xs tracking-wide font-medium font-mono capitalize text-accent-foreground/60">
+            <p className="text-xs md:text-base tracking-wide font-medium font-mono capitalize text-accent-foreground/60">
               {stepLabel}
             </p>
-            <h4 className="text-lg font-semibold uppercase">{label}</h4>
+            <h4 className="text-lg md:text-xl font-semibold uppercase">
+              {label}
+            </h4>
           </div>
         </div>
       </div>
