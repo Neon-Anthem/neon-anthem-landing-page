@@ -1,6 +1,5 @@
 "use client";
 
-import logoLight from "@/public/assets/neon-anthem/neon-anthem-logo-light.svg";
 import {
   IconArrowDown,
   IconArrowRight,
@@ -10,8 +9,8 @@ import {
   IconCode,
   IconUser,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import { JSX, useState } from "react";
+import { LogoWordMark } from "../vectors/logo";
 import { Button } from "./button";
 import {
   Nav,
@@ -35,20 +34,21 @@ export default function NavigationBar() {
 
   return (
     <Nav className="">
-      <NavBar className="bg-white!">
+      <NavBar className="">
         <NavBrand>
-          <Image
+          <LogoWordMark className="**:fill-white" />
+          {/* <Image
             src={logoLight}
             width={100}
             height={100}
             className="size-10"
             alt="Neon anthem logo, bold and wide Capital N with a Polestar on the top right of the capital N"
-          />
+          /> */}
         </NavBrand>
 
-        <NavGroup className="hidden sm:flex">
+        <NavGroup className="hidden sm:flex gap-2">
           <Navigation />
-          <NavGroup className="gap-2">
+          <NavGroup className="gap-2 text-background">
             <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
               See our work
               <IconArrowDown />
@@ -138,8 +138,17 @@ function Navigation() {
           {navItems?.map((item) => {
             if (item?.options) {
               return (
-                <NavigationMenuItem key={item.label}>
-                  <NavigationMenuTrigger>{item.label}</NavigationMenuTrigger>
+                <NavigationMenuItem
+                  className={"text-background"}
+                  key={item.label}
+                >
+                  <NavigationMenuTrigger
+                    className={
+                      "data-popup-open:hover:bg-transparent data-open:bg-transparent"
+                    }
+                  >
+                    {item.label}
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="w-180 grid grid-cols-2 grid-flow-row">
                       {item?.options?.map((opt) => {
@@ -173,8 +182,14 @@ function Navigation() {
             }
 
             return (
-              <NavigationMenuItem key={item.label}>
-                <NavigationMenuLink>{item.label}</NavigationMenuLink>
+              <NavigationMenuItem key={item.label} className={""}>
+                <NavigationMenuLink
+                  className={
+                    "bg-transparent hover:bg-transparent text-background hover:underline hover:underline-offset-2"
+                  }
+                >
+                  {item.label}
+                </NavigationMenuLink>
               </NavigationMenuItem>
             );
           })}
