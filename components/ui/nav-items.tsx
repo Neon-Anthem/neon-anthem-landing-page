@@ -15,7 +15,7 @@ function NavBar({
   return (
     <div
       className={cn(
-        "px-8 flex items-center container backdrop-blur-2xl mx-auto justify-between rounded-full bg-navbar fixed top-2 left-0 right-0 h-12",
+        "px-8 flex items-center bg-navbar mx-auto justify-between fixed top-0 w-full h-12 z-100",
         className,
       )}
     >
@@ -36,7 +36,7 @@ function NavGroup({
 }
 
 function NavBrand({ children }: PropsWithChildren) {
-  return <div className="*:h-8 bg-white">{children}</div>;
+  return <div className="*:h-8">{children}</div>;
 }
 
 function NavContent({ children }: PropsWithChildren) {
@@ -44,7 +44,7 @@ function NavContent({ children }: PropsWithChildren) {
 }
 
 function NavItem({ children }: PropsWithChildren) {
-  return <li className="font-medium text-sm text-navbar-item">{children}</li>;
+  return <li className="font-medium text-sm text-background">{children}</li>;
 }
 
 function NavItemSubTrigger({
@@ -68,7 +68,7 @@ function NavCTA({
   return (
     <button
       className={cn(
-        "px-3 py-1.5 rounded-full bg-primary text-navbar text-sm font-medium flex items-center gap-2 [&>svg]:size-4",
+        "px-3 py-1.5 rounded-full bg-background text-navbar text-sm font-medium flex items-center gap-2 [&>svg]:size-4",
         className,
       )}
     >

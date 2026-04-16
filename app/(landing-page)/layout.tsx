@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import LenisProvider from "@/providers/lenis.provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Syne } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
