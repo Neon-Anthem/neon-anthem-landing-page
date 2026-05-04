@@ -1,5 +1,12 @@
 import { Toaster } from "@/components/ui/sonner";
-import { geistMono, geistSans, inter, syneFont } from "@/lib/fonts";
+import {
+  fontClashGrotesk,
+  fontFunnelDisplay,
+  geistMono,
+  geistSans,
+  inter,
+  syneFont,
+} from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import "./globals.css";
@@ -24,6 +31,8 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         syneFont.variable,
+        fontFunnelDisplay.variable,
+        fontClashGrotesk.variable,
         "font-sans",
         inter.variable,
       )}

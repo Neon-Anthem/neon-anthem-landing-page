@@ -62,7 +62,7 @@ export default function HeroSection() {
         {/* End CTA */}
       </div>
 
-      {/* <HeroMetrics /> */}
+      <HeroMetrics />
 
       {/* Hero Fold */}
       <div className="absolute bottom-0 left-0 right-0">

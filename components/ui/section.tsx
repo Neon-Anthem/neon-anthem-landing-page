@@ -8,6 +8,7 @@ function Section({
   return (
     <section
       className={cn(
+        "bg-background py-8",
         "**:data-[block=contain]:container **:data-[block=contain]:mx-auto",
         "**:data-[block=contain]:px-4 **:data-[block=contain]:text-center", // Mobile Viewport
         "", // Tablet Viewport

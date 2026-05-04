@@ -15,7 +15,7 @@ function NavBar({
   return (
     <div
       className={cn(
-        "px-8 flex items-center bg-navbar mx-auto justify-between fixed top-0 w-full h-12 z-100",
+        "flex items-center mx-auto justify-between fixed top-0 w-full h-12 z-100 px-12",
         className,
       )}
     >
@@ -36,7 +36,11 @@ function NavGroup({
 }
 
 function NavBrand({ children }: PropsWithChildren) {
-  return <div className="*:h-8">{children}</div>;
+  return (
+    <div className="mix-blend-difference flex items-center gap-2">
+      {children}
+    </div>
+  );
 }
 
 function NavContent({ children }: PropsWithChildren) {
@@ -44,7 +48,7 @@ function NavContent({ children }: PropsWithChildren) {
 }
 
 function NavItem({ children }: PropsWithChildren) {
-  return <li className="font-medium text-sm text-background">{children}</li>;
+  return <li className="font-medium text-sm text-navbar-item">{children}</li>;
 }
 
 function NavItemSubTrigger({

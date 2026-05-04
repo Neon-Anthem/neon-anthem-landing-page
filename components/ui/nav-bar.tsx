@@ -10,7 +10,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 import { JSX, useState } from "react";
-import { LogoWordMark } from "../vectors/logo";
+import { TestLogoMark } from "../vectors/logo";
 import { Button } from "./button";
 import {
   Nav,
@@ -33,10 +33,12 @@ export default function NavigationBar() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   return (
-    <Nav className="">
+    <Nav>
       <NavBar className="">
         <NavBrand>
-          <LogoWordMark className="**:fill-white" />
+          {/* <LogoWordMark className="**:fill-white" /> */}
+          <TestLogoMark className="h-8!" />
+          <h4 className="text-xl font-medium text-foreground">NEON ANTHEM</h4>
           {/* <Image
             src={logoLight}
             width={100}
@@ -48,12 +50,12 @@ export default function NavigationBar() {
 
         <NavGroup className="hidden sm:flex gap-2">
           <Navigation />
-          <NavGroup className="gap-2 text-background">
+          <NavGroup className="gap-2">
             <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
               See our work
               <IconArrowDown />
             </Button>
-            <NavCTA>
+            <NavCTA className="bg-background text-foreground">
               Free 3-min Structural Audit
               <IconArrowRight />
             </NavCTA>
@@ -138,10 +140,7 @@ function Navigation() {
           {navItems?.map((item) => {
             if (item?.options) {
               return (
-                <NavigationMenuItem
-                  className={"text-background"}
-                  key={item.label}
-                >
+                <NavigationMenuItem className={""} key={item.label}>
                   <NavigationMenuTrigger
                     className={
                       "data-popup-open:hover:bg-transparent data-open:bg-transparent"
@@ -159,7 +158,7 @@ function Navigation() {
                           >
                             <div className="flex gap-4 items-start">
                               {/* Icon */}
-                              <div className="*:size-6! *:text-white outline-4 outline-slate-100 bg-conic from-slate-600 via-slate-800 to-slate-600 size-10! min-w-10! rounded-md flex items-center justify-center">
+                              <div className="*:size-6! outline-4 outline-slate-100 bg-conic from-slate-600 via-slate-800 to-slate-600 size-10! min-w-10! rounded-md flex items-center justify-center">
                                 {opt.icon}
                               </div>
                               {/* End Icon */}
@@ -182,10 +181,13 @@ function Navigation() {
             }
 
             return (
-              <NavigationMenuItem key={item.label} className={""}>
+              <NavigationMenuItem
+                key={item.label}
+                className={"text-navbar-item"}
+              >
                 <NavigationMenuLink
                   className={
-                    "bg-transparent hover:bg-transparent text-background hover:underline hover:underline-offset-2"
+                    "bg-transparent hover:bg-transparent hover:underline hover:underline-offset-2"
                   }
                 >
                   {item.label}

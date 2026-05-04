@@ -10,8 +10,7 @@ const ctaButtonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-linear-90 from-foreground from-[80%] to-background text-background",
+        default: "bg-primary text-background",
       },
       mode: {
         default: "rounded-xs",
