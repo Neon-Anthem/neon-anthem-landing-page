@@ -34,7 +34,7 @@ function WorkCard({ ...client }: IClientWork) {
       {/* Content */}
       <div className="grid max-md:grid-rows-[1fr_2fr] md:grid-cols-[5fr_4fr] gap-8">
         {/* Primary Showcase */}
-        <div className="h-full">
+        <div className="h-full w-full">
           <Image
             src={client.primaryImage.src}
             alt={client.primaryImage.alt}
