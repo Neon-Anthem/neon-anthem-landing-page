@@ -54,8 +54,9 @@ export default function InfrastructureCard({
           <Image
             src={image.src}
             alt={image.alt}
-            width={600}
-            height={600}
+            quality={100}
+            width={1000}
+            height={1000}
             className={cn("w-full h-auto rounded-md", image.className)}
           />
         </div>

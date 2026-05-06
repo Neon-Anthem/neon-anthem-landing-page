@@ -27,7 +27,7 @@ const INFRASTRUCTURESOLUTIONS: IInfrastructureSolution[] = [
       color: "white",
     },
     image: {
-      src: "/assets/showcase/sanity-editor.avif",
+      src: "/assets/mocks/CMS-editor.webp",
       alt: "WIP",
     },
     title: "Marketing Velocity",
@@ -48,8 +48,8 @@ const INFRASTRUCTURESOLUTIONS: IInfrastructureSolution[] = [
       color: "red",
     },
     image: {
-      src: "/assets/showcase/erp-solution-showcase.png",
-      className: "grayscale",
+      src: "/assets/mocks/custom-application.webp",
+      className: "",
       alt: "ERP Dashboard showcase image",
     },
     title: "Custom Application",
