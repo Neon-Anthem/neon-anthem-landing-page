@@ -2,6 +2,7 @@ import { Section } from "@/components/ui/section";
 import SectionTitle from "@/components/ui/section-title";
 import CLIENTWORKDATA, { IClientWork } from "@/data/static/client-work.data";
 import Image from "next/image";
+import { JSX } from "react";
 
 export default function ClientWorkSection() {
   return (
@@ -30,9 +31,9 @@ export default function ClientWorkSection() {
 
 function WorkCard({ ...client }: IClientWork) {
   return (
-    <div className="">
+    <div className="h-fit">
       {/* Content */}
-      <div className="grid max-md:grid-rows-[1fr_2fr] md:grid-cols-[5fr_4fr] gap-8">
+      <div className="grid max-md:grid-rows-[1fr_2fr] md:grid-cols-[5fr_4fr] gap-8 h-fit">
         {/* Primary Showcase */}
         <div className="h-full w-full">
           <Image
@@ -46,45 +47,87 @@ function WorkCard({ ...client }: IClientWork) {
         {/* End Primary Showcase */}
 
         {/* Secondary & Info */}
-        <div className="space-y-4 border-b border-b-foreground w-full">
+        <div className="space-y-4 border-b border-b-foreground/40 w-full h-full grid grid-rows-[1fr_1.4fr]">
           {/* Secondary Images */}
-          <div className="grid grid-cols-2 gap-8">
-            <Image
-              src={client.secondaryImage.src}
-              alt={client.secondaryImage.alt}
-              width={600}
-              height={600}
-            />
-            <Image
-              src={client.tertiaryImage.src}
-              alt={client.tertiaryImage.alt}
-              width={600}
-              height={600}
-            />
-          </div>
+          <WorkSecondaryShowcase
+            secondaryImage={client.secondaryImage}
+            tertiaryImage={client.tertiaryImage}
+          />
           {/* End Secondary Images */}
-
-          {/* Text Content */}
-          <div className="text-start max-sm:space-y-8">
-            {/* Client Information */}
-            <div className="">
-              {/* <h3 className="text-foreground text-3xl">{client.label}</h3> */}
-              <div className="*:h-14.5 *:w-max w-max mb-4">{client.logo}</div>
-              <p className="text-accent-foreground/60">{client.description}</p>
-            </div>
-            {/* End Client Information */}
+          {/* Information Content */}
+          <div className="h-full flex flex-col justify-between">
+            {/* Text Content */}
+            <WorkClientContent
+              logo={client.logo}
+              description={client.description}
+            />
+            {/* End Text Content */}
+            {/* Metrics */}
+            <WorkMetric
+              value={client.metric.value}
+              tagline={client.metric.tagline}
+            />
+            {/* end Metrics */}
           </div>
-          {/* End Text Content */}
-          {/* Metrics */}
-          <div className="flex flex-col items-start lg:flex-row lg:items-end text-foreground lg:gap-2">
-            <h4 className="text-6xl">{client.metric.value}</h4>
-            <p className="">{client.metric.tagline}</p>
-          </div>
-          {/* end Metrics */}
+          {/* End Information Content */}
         </div>
         {/* end Secondary & Info */}
       </div>
       {/* End Content */}
+    </div>
+  );
+}
+
+function WorkSecondaryShowcase({
+  secondaryImage,
+  tertiaryImage,
+}: {
+  secondaryImage: IClientWork["secondaryImage"];
+  tertiaryImage: IClientWork["tertiaryImage"];
+}) {
+  return (
+    <div className="grid grid-cols-2 gap-8 w-fit">
+      <Image
+        src={secondaryImage.src}
+        alt={secondaryImage.alt}
+        width={600}
+        height={600}
+      />
+      <Image
+        src={tertiaryImage.src}
+        alt={tertiaryImage.alt}
+        width={600}
+        height={600}
+      />
+    </div>
+  );
+}
+
+function WorkClientContent({
+  logo,
+  description,
+}: {
+  logo: JSX.Element;
+  description: string;
+}) {
+  return (
+    <div className="text-start max-sm:space-y-8">
+      {/* Client Information */}
+      <div className="">
+        {/* <h3 className="text-foreground text-3xl">{client.label}</h3> */}
+        <div className="*:h-14.5 *:w-max w-max mb-4">{logo}</div>
+        <p className="text-accent-foreground/60">{description}</p>
+      </div>
+      {/* End Client Information */}
+    </div>
+  );
+}
+
+function WorkMetric({ value, tagline }: { value: string; tagline: string }) {
+  return (
+    <div className="flex flex-col items-start lg:flex-row lg:items-end text-foreground lg:gap-2">
+      <h4 className="text-6xl">{value}</h4>
+      <p className="">{tagline}</p>
     </div>
   );
 }

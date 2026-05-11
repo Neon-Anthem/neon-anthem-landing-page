@@ -6,11 +6,17 @@ import { ChevronDownIcon } from "lucide-react";
 
 function NavigationMenu({
   align = "start",
+  sideOffset,
+  positionerClassName,
+  popupClassName,
   className,
   children,
   ...props
 }: NavigationMenuPrimitive.Root.Props &
-  Pick<NavigationMenuPrimitive.Positioner.Props, "align">) {
+  Pick<NavigationMenuPrimitive.Positioner.Props, "align" | "sideOffset"> & {
+    positionerClassName?: string;
+    popupClassName?: string;
+  }) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
@@ -21,7 +27,12 @@ function NavigationMenu({
       {...props}
     >
       {children}
-      <NavigationMenuPositioner align={align} />
+      <NavigationMenuPositioner
+        align={align}
+        sideOffset={sideOffset}
+        className={positionerClassName}
+        popupClassName={popupClassName}
+      />
     </NavigationMenuPrimitive.Root>
   );
 }
@@ -97,12 +108,13 @@ function NavigationMenuContent({
 
 function NavigationMenuPositioner({
   className,
+  popupClassName,
   side = "bottom",
   sideOffset = 8,
   align = "start",
   alignOffset = 0,
   ...props
-}: NavigationMenuPrimitive.Positioner.Props) {
+}: NavigationMenuPrimitive.Positioner.Props & { popupClassName?: string }) {
   return (
     <NavigationMenuPrimitive.Portal>
       <NavigationMenuPrimitive.Positioner
@@ -116,7 +128,12 @@ function NavigationMenuPositioner({
         )}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg bg-popover text-popover-foreground shadow ring-1 ring-foreground/10 transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
+        <NavigationMenuPrimitive.Popup
+          className={cn(
+            "data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg bg-popover text-popover-foreground shadow ring-1 ring-foreground/10 transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0",
+            popupClassName,
+          )}
+        >
           <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>
