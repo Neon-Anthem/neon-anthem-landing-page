@@ -1,16 +1,16 @@
 "use client";
 
-import {
-  IconArrowDown,
-  IconArrowRight,
-  IconAspectRatio,
-  IconBrowser,
-  IconBuilding,
-  IconCode,
-  IconUser,
-} from "@tabler/icons-react";
-import { JSX, useState } from "react";
-import { TestLogoMark } from "../vectors/logo";
+import NAVMENUS from "@/data/static/nav.data";
+import { sortByPosition } from "@/lib/positioner";
+import { cn } from "@/lib/utils";
+import { useNavbarStore } from "@/store/navbar-store";
+import { INavbarContent, INavbarContentList } from "@/types/navbar.type";
+import { IconArrowRight } from "@tabler/icons-react";
+import { useLenis } from "lenis/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { NeonAnthemLogo } from "../vectors/logo";
 import { Button } from "./button";
 import {
   Nav,
@@ -30,32 +30,23 @@ import {
 } from "./navigation-menu";
 
 export default function NavigationBar() {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const isDark = useNavbarStore((s) => s.isDark);
 
   return (
-    <Nav>
+    <Nav
+      className={cn("font-heading", {
+        dark: isDark,
+      })}
+    >
       <NavBar className="">
         <NavBrand>
-          {/* <LogoWordMark className="**:fill-white" /> */}
-          <TestLogoMark className="h-8!" />
-          <h4 className="text-xl font-medium text-foreground">NEON ANTHEM</h4>
-          {/* <Image
-            src={logoLight}
-            width={100}
-            height={100}
-            className="size-10"
-            alt="Neon anthem logo, bold and wide Capital N with a Polestar on the top right of the capital N"
-          /> */}
+          <NeonAnthemLogo className="max-sm:h-5! h-6! fill-black dark:fill-white" />
         </NavBrand>
 
         <NavGroup className="hidden sm:flex gap-2">
           <Navigation />
           <NavGroup className="gap-2">
-            <Button className={"capitalize"} variant={"ghost"} size={"sm"}>
-              See our work
-              <IconArrowDown />
-            </Button>
-            <NavCTA className="bg-background text-foreground">
+            <NavCTA className="">
               Free 3-min Structural Audit
               <IconArrowRight />
             </NavCTA>
@@ -66,81 +57,58 @@ export default function NavigationBar() {
   );
 }
 
-interface INavItems {
-  label: string;
-  href?: string;
-  options?: INavItemOptions[];
-}
+let navCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
-interface INavItemOptions {
-  label: string;
-  description?: string;
-  imageUrl?: string;
-  icon?: JSX.Element;
-  href: string;
-}
+function NavOpenEffect() {
+  const setIsDark = useNavbarStore((s) => s.setIsDark);
+  const setIsOpen = useNavbarStore((s) => s.setIsOpen);
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
 
-const navItems: INavItems[] = [
-  {
-    label: "Services",
-    options: [
-      {
-        label: "Landing Page",
-        description:
-          "High Converting Landing pages to turn visitors into customers",
-        href: "/services/landing-page",
-        icon: <IconBrowser />,
-      },
-      {
-        label: "Custom Solutions",
-        description:
-          "Build or revamp your existing Saas or solution for future market positioning",
-        href: "/services/swd",
-        icon: <IconCode />,
-      },
-      {
-        label: "Conversion Strategy",
-        description:
-          "A Full-Brief on Product market fit, Target audience, Scope of work and more...",
-        href: "/services/market-consultation",
-        icon: <IconAspectRatio />, // todo: Update the icon
-      },
-    ],
-  },
-  {
-    label: "Industries",
-    options: [
-      {
-        label: "Startups",
-        href: "/industries/startups",
-        icon: <IconUser />,
-        description:
-          "We help you with tight deadlines, product market fit, UX Analytics and more...",
-      },
-      {
-        label: "Legacy B2B",
-        description:
-          "Integrate AI Agents, Capture new markets, Scalable architecture and more...",
-        href: "/industries/legacy-b2b",
-        icon: <IconBuilding />,
-      },
-    ],
-  },
-  {
-    label: "Blogs",
-    href: "/blogs",
-  },
-];
+  useLayoutEffect(() => {
+    lenisRef.current = lenis;
+  });
+
+  useLayoutEffect(() => {
+    if (navCloseTimer !== null) {
+      clearTimeout(navCloseTimer);
+      navCloseTimer = null;
+    }
+    setIsDark(true);
+    setIsOpen(true);
+    lenisRef.current?.stop();
+    return () => {
+      const lenisInstance = lenisRef.current;
+      navCloseTimer = setTimeout(() => {
+        setIsDark(false);
+        setIsOpen(false);
+        lenisInstance?.start();
+        navCloseTimer = null;
+      }, 0);
+    };
+  }, [setIsDark, setIsOpen]);
+
+  return null;
+}
 
 function Navigation() {
+  const orderedNavMenus = useMemo(() => {
+    return sortByPosition(NAVMENUS);
+  }, []);
+
   return (
     <NavContent>
-      <NavigationMenu>
+      <NavigationMenu
+        className={""}
+        sideOffset={0}
+        positionerClassName="!left-0 !w-screen !max-w-none duration-0!"
+        popupClassName="!rounded-none !shadow-none !ring-0 duration-0!"
+      >
         <NavigationMenuList>
-          {navItems?.map((item) => {
-            if (item?.options) {
+          {orderedNavMenus?.map((item) => {
+            if (item?.child) {
               return (
-                <NavigationMenuItem className={""} key={item.label}>
+                <NavigationMenuItem className={"font-heading"} key={item.label}>
                   <NavigationMenuTrigger
                     className={
                       "data-popup-open:hover:bg-transparent data-open:bg-transparent"
@@ -148,33 +116,23 @@ function Navigation() {
                   >
                     {item.label}
                   </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="w-180 grid grid-cols-2 grid-flow-row">
-                      {item?.options?.map((opt) => {
-                        return (
-                          <NavigationMenuLink
-                            key={opt.label}
-                            className={"cursor-default"}
-                          >
-                            <div className="flex gap-4 items-start">
-                              {/* Icon */}
-                              <div className="*:size-6! outline-4 outline-slate-100 bg-conic from-slate-600 via-slate-800 to-slate-600 size-10! min-w-10! rounded-md flex items-center justify-center">
-                                {opt.icon}
-                              </div>
-                              {/* End Icon */}
-                              <div className="flex flex-col">
-                                <h4 className="text-2xl font-medium">
-                                  {opt.label}
-                                </h4>
-                                <p className="text-xs font-medium text-accent-foreground/70">
-                                  {opt.description}
-                                </p>
-                              </div>
-                            </div>
-                          </NavigationMenuLink>
-                        );
-                      })}
-                    </ul>
+                  <NavigationMenuContent
+                    className={
+                      "w-screen bg-black h-[50vh] duration-0! border-b border-b-border-foreground"
+                    }
+                  >
+                    <NavOpenEffect />
+                    <div className="grid grid-rows-3 grid-cols-1 h-full w-full sm:grid-cols-3 sm:grid-rows-1 *:w-full *:h-full border-t border-foreground py-4 px-4 *:px-2 divide-x divide-[#2d2d2d] text-background">
+                      {sortByPosition(item.child)?.map((child, index) => (
+                        <NavbarItemContentBlock
+                          {...child}
+                          key={item.id + index}
+                        />
+                      ))}
+                    </div>
+                    {/*  */}
+
+                    {/*  */}
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               );
@@ -198,5 +156,137 @@ function Navigation() {
         </NavigationMenuList>
       </NavigationMenu>
     </NavContent>
+  );
+}
+
+function NavbarItemContentBlock({ ...item }: INavbarContent) {
+  function ItemLink({
+    label,
+    href,
+    description,
+    triggerImage,
+    index,
+  }: INavbarContentList["children"][0] & { index: number }) {
+    return (
+      <Link className="flex items-start font-body group" href={href}>
+        <p className="w-10 text-background/40 group-hover:text-background/90 text-xl font-medium">
+          {new Intl.NumberFormat("en-In", { minimumIntegerDigits: 2 }).format(
+            index,
+          )}
+        </p>
+        <div className="">
+          <h4 className="text-xl font-medium text-background/90 group-hover:text-background">
+            {label}
+          </h4>
+          {description ? (
+            <p className="text-sm font-medium text-background/40">
+              {description}
+            </p>
+          ) : null}
+        </div>
+      </Link>
+    );
+  }
+
+  switch (item.contentType) {
+    case "list":
+      return (
+        <div
+          className={cn("flex flex-col justify-between h-full w-full", {
+            "row-span-2 sm:col-span-2": item.span === 2,
+          })}
+        >
+          <div>
+            <div>
+              {/* Heading Title */}
+              <div className="border-b border-foreground py-1">
+                <h3 className="text-2xl font-body font-medium uppercase">
+                  {item.heading}
+                </h3>
+              </div>
+              {/* End Heading Title */}
+
+              {/* Item List */}
+              <div className="flex flex-col gap-4 py-2 h-full">
+                {item?.children?.map((listItem, index) => (
+                  <ItemLink {...listItem} index={index + 1} key={index} />
+                ))}
+              </div>
+              {/* end Item List */}
+            </div>
+          </div>
+          {/* Conversion strategy Banner */}
+
+          <div>
+            <CTABlock cta={item.cta} banner={item.banner} />
+          </div>
+
+          {/* End Conversion Strategy Banner */}
+        </div>
+      );
+
+    case "image":
+      return (
+        <div className="h-full w-full">
+          <Image
+            src={item.imageSrc}
+            alt={item.alt}
+            width={1000}
+            height={1000}
+            quality={100}
+            className=" w-auto object-cover h-full object-top-left"
+          />
+        </div>
+      );
+    default:
+      return <></>;
+  }
+}
+
+function CTABlock({
+  cta,
+  banner,
+}: {
+  cta?: INavbarContentList["cta"];
+  banner?: INavbarContentList["banner"];
+}) {
+  if (banner) {
+    return (
+      <div className="w-full bg-background text-foreground px-1 py-1 mt-auto font-body">
+        <div>
+          <h3 className="text-foreground text-3xl font-medium">
+            {banner.title}
+          </h3>
+          <p>{banner.subheading}</p>
+        </div>
+        {/*  */}
+        <div className="flex gap-3 mt-4">
+          <Button
+            className="bg-foreground text-background px-3 py-1 rounded-none"
+            nativeButton={false}
+            render={<Link href={banner.cta.href}>{banner.cta.label}</Link>}
+          />
+          <Button
+            variant={"ghost"}
+            nativeButton={false}
+            render={
+              <Link href={banner.secondaryCta.href}>
+                {banner.secondaryCta.label}
+              </Link>
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="w-full font-body">
+      <Button
+        variant={"secondary"}
+        className={"w-full rounded-none"}
+        nativeButton={false}
+        render={<Link href={cta?.href ?? ""}>{cta?.label}</Link>}
+      />
+    </div>
   );
 }

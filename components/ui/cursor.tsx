@@ -12,6 +12,16 @@ export function Cursor() {
   const y = useSpring(rawY, { stiffness: 400, damping: 28, mass: 0.4 });
 
   useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent =
+      "*, *::before, *::after { cursor: none !important; }";
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  useEffect(() => {
     function onMouseMove(e: MouseEvent) {
       rawX.set(e.clientX);
       rawY.set(e.clientY);

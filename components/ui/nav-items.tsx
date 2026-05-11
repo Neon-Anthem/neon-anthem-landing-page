@@ -1,21 +1,43 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import {
+  INavbarState,
+  NavbarStoreProvider,
+  useNavbarStore,
+} from "@/store/navbar-store";
 import { PropsWithChildren } from "react";
+
+function NavbarProvider({
+  children,
+  initState,
+  className,
+}: PropsWithChildren & { className?: string; initState: INavbarState }) {
+  return <NavbarStoreProvider init={initState}>{children}</NavbarStoreProvider>;
+}
 
 function Nav({
   children,
   className,
 }: PropsWithChildren & { className?: string }) {
-  return <nav className={cn("z-100", className)}>{children}</nav>;
+  return (
+    <div className={cn("", className)}>
+      <div className={cn("z-100", className)}>{children}</div>
+    </div>
+  );
 }
 
 function NavBar({
   children,
   className,
 }: PropsWithChildren & { className?: string }) {
+  const isDark = useNavbarStore((s) => s.isDark);
+
   return (
     <div
       className={cn(
-        "flex items-center mx-auto justify-between fixed top-0 w-full h-12 z-100 px-12",
+        "flex items-center mx-auto justify-between fixed top-0 w-full h-12 z-100 px-4 md:px-12 transition-colors duration-300",
+        isDark ? "bg-black text-white" : "",
         className,
       )}
     >
@@ -37,18 +59,22 @@ function NavGroup({
 
 function NavBrand({ children }: PropsWithChildren) {
   return (
-    <div className="mix-blend-difference flex items-center gap-2">
-      {children}
-    </div>
+    <div className="flex items-center gap-2 text-foreground">{children}</div>
   );
 }
 
 function NavContent({ children }: PropsWithChildren) {
-  return <ul className="flex items-center justify-center gap-6">{children}</ul>;
+  return (
+    <div className="flex items-center justify-center gap-6">{children}</div>
+  );
 }
 
 function NavItem({ children }: PropsWithChildren) {
-  return <li className="font-medium text-sm text-navbar-item">{children}</li>;
+  return (
+    <div className="list-none font-medium text-sm text-navbar-item">
+      {children}
+    </div>
+  );
 }
 
 function NavItemSubTrigger({
@@ -65,6 +91,19 @@ function NavItemSub({
   return <div className={cn("", className)}>{children}</div>;
 }
 
+export function NavDropdown({
+  children,
+  label,
+}: PropsWithChildren & {
+  label: string;
+}) {
+  return (
+    <div className="relative">
+      <div className="bg-black w-screen h-screen sm:h-[50vh]">{children}</div>
+    </div>
+  );
+}
+
 function NavCTA({
   children,
   className,
@@ -72,7 +111,7 @@ function NavCTA({
   return (
     <button
       className={cn(
-        "px-3 py-1.5 rounded-full bg-background text-navbar text-sm font-medium flex items-center gap-2 [&>svg]:size-4",
+        "px-3 py-1.5 rounded-full bg-foreground text-background text-sm font-medium flex items-center gap-2 [&>svg]:size-4",
         className,
       )}
     >
@@ -81,4 +120,13 @@ function NavCTA({
   );
 }
 
-export { Nav, NavBar, NavBrand, NavContent, NavCTA, NavGroup, NavItem };
+export {
+  Nav,
+  NavBar,
+  NavbarProvider,
+  NavBrand,
+  NavContent,
+  NavCTA,
+  NavGroup,
+  NavItem,
+};
