@@ -57,6 +57,8 @@ export default function NavigationBar() {
   );
 }
 
+let navCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
 function NavOpenEffect() {
   const setIsDark = useNavbarStore((s) => s.setIsDark);
   const setIsOpen = useNavbarStore((s) => s.setIsOpen);
@@ -68,13 +70,21 @@ function NavOpenEffect() {
   });
 
   useLayoutEffect(() => {
+    if (navCloseTimer !== null) {
+      clearTimeout(navCloseTimer);
+      navCloseTimer = null;
+    }
     setIsDark(true);
     setIsOpen(true);
     lenisRef.current?.stop();
     return () => {
-      setIsDark(false);
-      setIsOpen(false);
-      lenisRef.current?.start();
+      const lenisInstance = lenisRef.current;
+      navCloseTimer = setTimeout(() => {
+        setIsDark(false);
+        setIsOpen(false);
+        lenisInstance?.start();
+        navCloseTimer = null;
+      }, 0);
     };
   }, [setIsDark, setIsOpen]);
 
