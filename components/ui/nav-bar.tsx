@@ -5,13 +5,13 @@ import { sortByPosition } from "@/lib/positioner";
 import { cn } from "@/lib/utils";
 import { useNavbarStore } from "@/store/navbar-store";
 import { INavbarContent, INavbarContentList } from "@/types/navbar.type";
-import { IconArrowRight } from "@tabler/icons-react";
 import { useLenis } from "lenis/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useMemo, useRef } from "react";
 import { NeonAnthemLogo } from "../vectors/logo";
 import { Button } from "./button";
+import { CTAButton } from "./cta.button";
 import { Nav, NavBar, NavBrand, NavContent, NavGroup } from "./nav-items";
 import {
   NavigationMenu,
@@ -24,11 +24,12 @@ import {
 
 export default function NavigationBar() {
   const isDark = useNavbarStore((s) => s.isDark);
+  const isOpen = useNavbarStore((s) => s.isOpen);
 
   return (
     <Nav
       className={cn("font-heading", {
-        dark: isDark,
+        dark: isOpen || isDark,
       })}
     >
       <NavBar className="">
@@ -39,12 +40,9 @@ export default function NavigationBar() {
         <NavGroup className="hidden sm:flex gap-2">
           <Navigation />
           <NavGroup className="gap-2">
-            <Button className="gap-4 font-body font-medium text-base">
+            <CTAButton className="gap-4 font-body font-medium text-base">
               Talk to Us
-              <span className="bg-primary-foreground -m-1 -mr-1.5 p-1">
-                <IconArrowRight className="stroke-primary" />
-              </span>
-            </Button>
+            </CTAButton>
           </NavGroup>
         </NavGroup>
       </NavBar>
@@ -55,7 +53,6 @@ export default function NavigationBar() {
 let navCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
 function NavOpenEffect() {
-  const setIsDark = useNavbarStore((s) => s.setIsDark);
   const setIsOpen = useNavbarStore((s) => s.setIsOpen);
   const lenis = useLenis();
   const lenisRef = useRef(lenis);
@@ -69,19 +66,17 @@ function NavOpenEffect() {
       clearTimeout(navCloseTimer);
       navCloseTimer = null;
     }
-    setIsDark(true);
     setIsOpen(true);
     lenisRef.current?.stop();
     return () => {
       const lenisInstance = lenisRef.current;
       navCloseTimer = setTimeout(() => {
-        setIsDark(false);
         setIsOpen(false);
         lenisInstance?.start();
         navCloseTimer = null;
       }, 0);
     };
-  }, [setIsDark, setIsOpen]);
+  }, [setIsOpen]);
 
   return null;
 }

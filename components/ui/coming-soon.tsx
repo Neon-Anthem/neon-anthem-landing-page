@@ -32,7 +32,7 @@ export function ComingSoon({
         <div className="text-foreground text-4xl">
           <h1 className="font-medium uppercase">Currently In Development</h1>
           <p className="text-base">
-            We are currently designing this page. It will be live soon.
+            Neon Anthem is new, but our hands on experience is not.
           </p>
         </div>
         {/* End Coming Soon */}
