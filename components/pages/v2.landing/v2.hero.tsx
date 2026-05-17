@@ -13,10 +13,10 @@ const isProd = isProduction();
 
 export default function HeroV2() {
   if (isProd) {
+    posthog.capture("homepage-capture", {
+      timestamp: new Date().toISOString(),
+    });
   }
-  posthog.capture("homepage-capture", {
-    timestamp: new Date().toISOString(),
-  });
 
   return (
     <Section className="pt-18 sm:pt-40.75 min-h-screen">
@@ -42,8 +42,9 @@ function Hero() {
         {/* End tagline */}
 
         {/* Heading */}
-        <h1 className="text-4xl sm:text-5xl md:text-4xl lg:text-6xl xl:text-7xl font-medium text-foreground font-heading">
-          We Engineer<br></br> High-Converting<br></br> Landing Pages.
+        <h1 className="text-4xl sm:text-5xl md:text-4xl lg:text-6xl xl:text-7xl font-medium text-foreground">
+          {/* We Engineer<br></br> High-Converting<br></br> Landing Pages. */}
+          We Engineer High<br></br>Converting-Funnels<br></br>for B2B Lead Gen.
         </h1>
         {/* end Heading */}
 
@@ -56,7 +57,8 @@ function Hero() {
         {/* CTA */}
         <div className="mt-4 sm:mt-17.5 w-max">
           <Button className={"rounded-none"}>
-            Get our Free Structural Audit <IconArrowRight />
+            Stop Guessing. Start Converting
+            <IconArrowRight />
           </Button>
         </div>
         {/* End CTA */}
