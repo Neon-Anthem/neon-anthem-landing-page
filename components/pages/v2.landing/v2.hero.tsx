@@ -42,22 +42,25 @@ function Hero() {
         {/* End tagline */}
 
         {/* Heading */}
-        <h1 className="text-4xl sm:text-5xl md:text-4xl lg:text-6xl xl:text-7xl font-medium text-foreground">
+        <h1 className="text-3xl sm:text-5xl md:text-3xl lg:text-5xl xl:text-6xl font-medium text-foreground">
           {/* We Engineer<br></br> High-Converting<br></br> Landing Pages. */}
-          We Engineer High<br></br>Converting-Funnels<br></br>for B2B Lead Gen.
+          {/* We Engineer High<br></br>Converting-Funnels<br></br>for B2B Lead Gen. */}
+          We Engineer B2B Lead Gen Systems so you stop paying for every click.
         </h1>
         {/* end Heading */}
 
         {/* Sub heading */}
-        <p className="text-sm sm:text-base mt-2 text-foreground">
-          Your Ad-Spend is working. Your Landing Page isn&apos;t. We fix that.
+        <p className="text-sm sm:text-base mt-2 text-foreground font-medium">
+          Your Ad-Spend is working. Turn that off and you&apos;re invisible. We
+          fix that.
         </p>
         {/* End sub heading */}
 
         {/* CTA */}
-        <div className="mt-4 sm:mt-17.5 w-max">
+        <div className="max-sm:mt-8 sm:mt-17.5 w-max">
           <Button className={"rounded-none"}>
-            Stop Guessing. Start Converting
+            {/* Get a Free Structural Audit */}
+            Get us to Find your Leaky Funnel
             <IconArrowRight />
           </Button>
         </div>
@@ -68,11 +71,12 @@ function Hero() {
       {/* Image area */}
       <div>
         <Image
-          src="/assets/showcase/the-mark-media-landing-page-demo.png"
+          src="/assets/mocks/lead-gen-hero.webp"
           alt="Neon Anthem's client website hero section showcase"
           width={1000}
           height={1000}
-          className="max-w-181.25 max-h-104.75 w-full h-fit lg:h-full object-cover"
+          quality={100}
+          className="max-w-181.25 max-h-104.75 w-full h-fit lg:h-full object-cover object-top border rounded-2xl"
         />
       </div>
       {/* End Image area */}
